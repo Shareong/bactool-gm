@@ -1,0 +1,88 @@
+plugins {
+    id 'com.github.sherter.google-java-format' version '0.8'
+}
+
+apply plugin: 'maven'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+googleJavaFormat {
+    options style: 'AOSP'
+    source = sourceSets*.allJava
+    include '**/*.java'
+    exclude '**/temp/*.java'
+    exclude '**/solidity/*.java'
+}
+
+verifyGoogleJavaFormat {
+    source = sourceSets*.allJava
+    include '**/*.java'
+    exclude '**/temp/*.java'
+    exclude '**/solidity/*.java'
+}
+
+check.dependsOn.remove(test)
+check.dependsOn.remove(verifyGoogleJavaFormat)
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    maven { url "https://dl.bintray.com/ethereum/maven/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    mavenCentral()
+}
+
+configurations {
+    all {
+        exclude module: "spring-boot-starter-logging"
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    compile files('lib/bac.jar')
+    compile 'org.fisco-bcos:web3sdk:2.2.0'
+    compile 'org.codehaus.groovy:groovy-all:2.5.6'
+    compile 'org.springframework.boot:spring-boot-starter-log4j2:2.1.4.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-actuator:2.1.4.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-web:2.1.4.RELEASE'
+    compile 'org.springframework.boot:spring-boot-configuration-processor:2.1.4.RELEASE'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.1.4.RELEASE'
+
+}
+
+jar {
+    destinationDir file('dist/apps')
+    archiveName project.name + '.jar'
+    exclude '**/*.xml'
+    exclude '**/*.toml'
+    exclude '**/*.properties'
+    exclude '**/*.yml'
+
+    doLast {
+        copy {
+            from file('src/main/resources/')
+            into 'dist/conf'
+        }
+        copy {
+            from configurations.runtime
+            into 'dist/lib'
+        }
+        copy {
+            from file('.').listFiles().findAll { File f -> (f.name.endsWith('.sh') || f.name.endsWith('.env')) }
+            into 'dist'
+        }
+    }
+}
+
+test {
+    systemProperty "jdk.tls.namedGroups", "secp256k1"
+}
