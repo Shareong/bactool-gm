@@ -8,7 +8,7 @@
 
     <bean id="encryptType"
         class="org.fisco.bcos.web3j.crypto.EncryptType">
-        <constructor-arg value="0"/> <!-- 0:standard 1:guomi -->
+        <constructor-arg value="1"/> <!-- 0:standard 1:guomi -->
     </bean>
 
     <bean id="account"

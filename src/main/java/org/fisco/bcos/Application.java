@@ -1,14 +1,9 @@
 package org.fisco.bcos;
 
 import org.fisco.bcos.bac.Bac;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@SpringBootApplication
-@EnableConfigurationProperties
 public class Application {
     public static void main(String[] args) {
-        //    SpringApplication.run(Application.class, args);
         String method = args[0];
         Bac bac = new Bac();
         if (method.equalsIgnoreCase("init")) {

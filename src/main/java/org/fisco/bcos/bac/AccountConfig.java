@@ -41,8 +41,11 @@ public class AccountConfig {
             throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException,
                     InvalidKeySpecException, NoSuchProviderException, CertificateException,
                     IOException {
-        return loadPemAccount();
-        // return loadP12Account();
+        if (!pemFile.trim().equalsIgnoreCase("")) {
+            return loadPemAccount();
+        } else {
+            return loadP12Account();
+        }
     }
 
     // load pem account file

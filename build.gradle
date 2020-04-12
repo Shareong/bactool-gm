@@ -37,26 +37,8 @@ repositories {
     mavenCentral()
 }
 
-configurations {
-    all {
-        exclude module: "spring-boot-starter-logging"
-    }
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
 dependencies {
-    compile files('lib/bac.jar')
     compile 'org.fisco-bcos:web3sdk:2.2.0'
-    compile 'org.codehaus.groovy:groovy-all:2.5.6'
-    compile 'org.springframework.boot:spring-boot-starter-log4j2:2.1.4.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-actuator:2.1.4.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-web:2.1.4.RELEASE'
-    compile 'org.springframework.boot:spring-boot-configuration-processor:2.1.4.RELEASE'
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.1.4.RELEASE'
-
 }
 
 jar {
@@ -66,6 +48,8 @@ jar {
     exclude '**/*.toml'
     exclude '**/*.properties'
     exclude '**/*.yml'
+    exclude '**/*.crt'
+    exclude '**/*.key'
 
     doLast {
         copy {

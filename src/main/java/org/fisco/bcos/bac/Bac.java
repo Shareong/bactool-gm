@@ -1,7 +1,6 @@
 package org.fisco.bcos.bac;
 
 import java.math.BigInteger;
-import org.fisco.bcos.BAC001;
 import org.fisco.bcos.channel.client.Service;
 import org.fisco.bcos.web3j.crypto.Credentials;
 import org.fisco.bcos.web3j.protocol.Web3j;
@@ -19,7 +18,7 @@ public class Bac {
     public Bac() {
         try {
             ApplicationContext context =
-                    new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+                    new ClassPathXmlApplicationContext("classpath:application.xml");
             Service service = context.getBean(Service.class);
             service.run();
 
@@ -48,10 +47,10 @@ public class Bac {
                                     "htlc ledger",
                                     "HTLCOIN",
                                     BigInteger.valueOf(1),
-                                    BigInteger.valueOf(100000000))
+                                    BigInteger.valueOf(1000000000))
                             .send();
             assetAddress = bac001.getContractAddress();
-            bac001.approve(htlcAddress, new BigInteger("100000000")).send();
+            bac001.approve(htlcAddress, new BigInteger("1000000000")).send();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
