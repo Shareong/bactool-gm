@@ -1,4 +1,4 @@
-package org.fisco.bcos.bac;
+package bac;
 
 import java.math.BigInteger;
 import org.fisco.bcos.channel.client.Service;

@@ -1,6 +1,4 @@
-package org.fisco.bcos;
-
-import org.fisco.bcos.bac.Bac;
+import bac.Bac;
 
 public class Application {
     public static void main(String[] args) {
